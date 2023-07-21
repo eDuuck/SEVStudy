@@ -227,16 +227,22 @@ if [ ${SEV} = "1" ]; then
 	add_opts "-machine memory-encryption=sev0,vmport=off" 
 	get_cbitpos
 
-	if [ "${ALLOW_DEBUG}" = "1" -o "${SEV_ES}" = 1 ]; then
-		POLICY=$((0x01))
-		[ "${ALLOW_DEBUG}" = "1" ] && POLICY=$((POLICY & ~0x01))
-		[ "${SEV_ES}" = "1" ] && POLICY=$((POLICY | 0x04))
-		SEV_POLICY=$(printf ",policy=%#x" $POLICY)
-	fi
-
 	if [ "${SEV_SNP}" = 1 ]; then
-		add_opts "-object sev-snp-guest,id=sev0,cbitpos=${CBITPOS},reduced-phys-bits=1"
+		POLICY=$((0x30000)) # "Base Policy" that allows SMT. See 4.3 in sev snp abi for other options
+		if [ "${ALLOW_DEBUG}" = "1" ]; then
+			POLICY=$(($POLICY | (0x1 << 19) )) #set bit 19, to enable debug api in plicy
+		fi
+		SEV_POLICY=$(printf "policy=%#x" $POLICY)
+		echo "SEV_POLICY is ${SEV_POLICY}"
+
+		add_opts "-object sev-snp-guest,id=sev0,${SEV_POLICY},cbitpos=${CBITPOS},reduced-phys-bits=1"
 	else
+		if [ "${ALLOW_DEBUG}" = "1" -o "${SEV_ES}" = 1 ]; then
+			POLICY=$((0x01))
+			[ "${ALLOW_DEBUG}" = "1" ] && POLICY=$((POLICY & ~0x01))
+			[ "${SEV_ES}" = "1" ] && POLICY=$((POLICY | 0x04))
+			SEV_POLICY=$(printf ",policy=%#x" $POLICY)
+		fi
 		add_opts "-object sev-guest,id=sev0${SEV_POLICY},cbitpos=${CBITPOS},reduced-phys-bits=1"
 	fi
 fi
