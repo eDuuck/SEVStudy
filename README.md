@@ -2,20 +2,16 @@
 
 This meta repo tracks a compatible state of all SEV STEP components and contains scripts to install everything required to setup a SEV VM.
 
-This manual was tested on a Dell PowerEdge R6515 with a AMD EPYC 7763 CPU running Ubuntu 20.04.5 LTS.
-
-If you build on Ubuntu 22.04.2 LTS:
-1) ovmf build fails with gcc-11, use gcc-10 (upate-alternatives is your friend). Also you need to symlink python to python3
+This manual was tested on a Dell PowerEdge R6515 with a AMD EPYC 7763 CPU running Ubuntu 22.04.2 LTS.
 
 
 This repo uses git submodules. Run `git submodule update --init --recursive` to ~~catch~~ fetch them all.
 # Build Hypervisor Components
-In this section you will install the modified SEV STEP kernel, as well as compatible stock versions of QEMU and OVMF/edk2.
+In this section you will install the modified SEV STEP kernel, as well as compatible stock versions of QEMU and OVMF/edk2. There are pre-built .deb files for the kernel in the artifact section of this repo. They were built based on the config of Ubuntu 22.04.2 LTS. If you run into any issues with the pre-built binaries, you can also build the kernel yourself, based on your currently active config (see step 2).
 
-1) Run `./build.sh` to build OVMF, QEMU, and the Linux kernel. If you run into any missing dependencies
-try `sudo apt-get build-dep ovmf qemu-system-x86`.
-All packages are only installed locally in `./local-installation/`.
-2) Install the host kernel  using `dpkg -i ./kernel-packages/*.deb`
+1) Run `./build.sh ovmf`, `./build.sh qemu` to build OVMF and QEMU. If you run into any missing dependencies
+try `sudo apt-get build-dep ovmf qemu-system-x86`. All packages are only installed locally in `./local-installation/`.
+2) If you don't use the pre-built kernel packages run `./build.sh kernel` to build the kernel based on the config of the currently active kernel. Afterwards install the packages using `dpkg -i ./kernel-packages/*.deb`
 3) Create the config file `/etc/modprobe.d/kvm.conf` with content
 ```
 # Enable SEV Support
