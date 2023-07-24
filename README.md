@@ -4,6 +4,9 @@ This meta repo tracks a compatible state of all SEV STEP components and contains
 
 This manual was tested on a Dell PowerEdge R6515 with a AMD EPYC 7763 CPU running Ubuntu 20.04.5 LTS.
 
+If you build on Ubuntu 22.04.2 LTS:
+1) ovmf build fails with gcc-11, use gcc-10 (upate-alternatives is your friend). Also you need to symlink python to python3
+
 
 This repo uses git submodules. Run `git submodule update --init --recursive` to ~~catch~~ fetch them all.
 # Build Hypervisor Components
