@@ -1,5 +1,20 @@
 # sev-step-meta
 
+SEV-Step makes interactive single-stepping, page fault tracking and eviction set-based cache attacks available in a single, reusable framework. For more information, check out the [paper](https://arxiv.org/pdf/2307.14757.pdf).
+If you use the framework in your research, please cite it as
+```bibtex
+@misc{wilke2023sevstep,
+      title={SEV-Step: A Single-Stepping Framework for AMD-SEV}, 
+      author={Luca Wilke and Jan Wichelmann and Anja Rabich and Thomas Eisenbarth},
+      year={2023},
+      eprint={2307.14757},
+      archivePrefix={arXiv},
+      primaryClass={cs.CR}
+}
+
+```
+.
+
 This meta repo tracks a compatible state of all SEV STEP components and contains scripts to install everything required to setup a SEV VM.
 
 This manual was tested on a Dell PowerEdge R6515 with a AMD EPYC 7763 CPU running Ubuntu 22.04.2 LTS.
