@@ -3,15 +3,18 @@
 SEV-Step makes interactive single-stepping, page fault tracking and eviction set-based cache attacks available in a single, reusable framework. For more information, check out the [paper](https://arxiv.org/pdf/2307.14757.pdf).
 If you use the framework in your research, please cite it as
 ```bibtex
-@misc{wilke2023sevstep,
-      title={SEV-Step: A Single-Stepping Framework for AMD-SEV}, 
-      author={Luca Wilke and Jan Wichelmann and Anja Rabich and Thomas Eisenbarth},
-      year={2023},
-      eprint={2307.14757},
-      archivePrefix={arXiv},
-      primaryClass={cs.CR}
+@article{Wilke_Wichelmann_Rabich_Eisenbarth_2023,
+    title   = {SEV-Step A Single-Stepping Framework for AMD-SEV},
+    author  = {Wilke, Luca and Wichelmann, Jan and Rabich, Anja and Eisenbarth, Thomas},
+    journal = {IACR Transactions on Cryptographic Hardware and Embedded Systems},
+    volume  = {2024},
+    number  = {1},
+    url     = {https://tches.iacr.org/index.php/TCHES/article/view/11250},
+    DOI     = {10.46586/tches.v2024.i1.180-206},
+    year    = {2023},
+    month   = {Dec.},
+    pages   = {180–206}
 }
-
 ```
 .
 
