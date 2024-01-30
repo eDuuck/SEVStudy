@@ -276,6 +276,8 @@ add_opts "-monitor pty -monitor unix:monitor,server,nowait"
 # this allows qemu-affinity to pin QEMU's threads
 add_opts "-name sev-step-vm,debug-threads=on"
 
+add_opts "-qmp tcp:localhost:4444,server,wait=off"
+
 
 # log the console  output in stdout.log
 QEMU_CONSOLE_LOG=`pwd`/stdout.log
