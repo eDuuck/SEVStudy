@@ -82,5 +82,7 @@ which enables the SEV debug API. Many **test functions** of the sev step framewo
 ## Use Sev Step Library
 Head over to the `README.md` in the `sev-step-userland` submodule to learn how to use the sev step library.
 
+There also is an [experimental version](https://github.com/sev-step/sev-step-rust-userland) of this library that tries to make single-stepping easier by providing an API with high level abstractions. 
+
 # References
 [1] https://github.com/AMDESE/AMDSEV/tree/sev-snp-devel#prepare-host
