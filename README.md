@@ -28,8 +28,15 @@ This repo uses git submodules. Run `git submodule update --init --recursive` to 
 
 In this section you will install the modified SEV-Step kernel, as well as compatible stock versions of QEMU and OVMF/edk2. There are pre-built .deb files for the kernel in the artifact section of this repo. They were built based on the config of Ubuntu 22.04.2 LTS. If you run into any issues with the pre-built binaries, you can also build the kernel yourself, based on your currently active config (see step 2).
 
-1) Run `./build.sh ovmf`, `./build.sh qemu` to build OVMF and QEMU. If you run into any missing dependencies
-try `sudo apt-get build-dep ovmf qemu-system-x86`. All packages are only installed locally in `./local-installation/`.
+0) First install any missing build dependencies (tested on Ubuntu 22.04):
+
+```
+# apt install build-essential ninja-build python-is-python3 flex bison libncurses-dev gawk openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf llvm
+# sed -i '/deb-src/s/^# //' /etc/apt/sources.list && apt update
+# apt build-dep ovmf qemu-system-x86 linux
+```
+
+1) Run `./build.sh ovmf`, `./build.sh qemu` to build OVMF and QEMU. All packages are only installed locally in `./local-installation/`.
 2) If you don't use the pre-built kernel packages run `./build.sh kernel` to build the kernel based on the config of the currently active kernel. Afterwards install the packages using `dpkg -i ./kernel-packages/*.deb`
 3) Create the config file `/etc/modprobe.d/kvm.conf` with content
 ```
@@ -75,7 +82,7 @@ In this section, we will setup an SEV-SNP VM using the toolchain we just built.
 2) Start VM with `sudo ./launch-qemu.sh -hda <VM_DISK.qcow2> -cdrom <Ubuntu 22.10 iso> -vnc :1` where `<Ubuntu 22.10 iso>` is the path
 to the regular Ubuntu installation iso. While you can use other Distros, their SEV support might vary. The most important part is, that they ship at least
 kernel version 5.19, as this is the first mainline kernel version that supports running as an SEV-SNP guest.
-3) Connect to the VM via a VNC viewer on port `5901` and perform a standard installation
+3) Connect to the VM via a VNC viewer on port `5901` and perform a standard installation. Alternatively, to perform a text-only installation, add `console=ttyS0` to the guest kernel command line when booting in Grub.
 4) Once the installation is done, terminate qemu with `ctrl a+x` or use `sudo kill $(pidof qemu-system-x86)`
 4) Start the VM again and connect with VNC. Install the OpenSSH server and configure it to autostart. The `./launch-qemu.sh` script already forwards VM port 22 to host port 2222 and VM port 8080 to host port 8080
 5) Use `sudo ./launch-qemu.sh -hda <VM_DISK.qcow2> -sev-snp` to start the VM with SEV-SNP protection. You might want to also supply the `-allow-debug`
